@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: rAPP_Manager_BackEnd
+
+server.port: 8098
+
+keycloak:
+  enabled: false  # quick fix for "Must set 'realm' in config" error
