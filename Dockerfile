@@ -4,7 +4,7 @@ FROM eclipse-temurin:17-jdk-focal
 WORKDIR /app
 
 # Copy JAR file
-COPY target/*.jar app.jar
+COPY /workspace/target/*.jar app.jar
 
 # Expose the port application runs on 8098
 EXPOSE 8098
