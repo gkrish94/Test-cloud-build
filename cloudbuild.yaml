@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
-  args: ['mvnw ', 'install', '-f', 'pom.xml' ]
+  args: ['install', '-f', 'pom.xml' ]
   id: 'Building jar file'
 
