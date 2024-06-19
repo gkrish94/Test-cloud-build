@@ -6,3 +6,10 @@ steps:
 - name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
   args: ['push','/workspace/rapp-manager-backend-0.1.0.tgz','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
+
+- name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
+  args: ['install','rapp-manager-backend','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-studio-backend']
+  id: 'Installing the helm charts'
+  env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-north1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=rapp-studio-gke1'
