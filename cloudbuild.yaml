@@ -1,5 +1,5 @@
 steps:
-  name: 'gcr.io/rimusz-lab1/cloud-builders-helm'
+- name: 'gcr.io/rimusz-lab1/cloud-builders-helm'
   args: ['package','./charts/rapp-studio-backend']
   id: 'Packaging helm chart'
 
