@@ -1,25 +1,8 @@
 steps:
-  #Building the jar file using gcloud mvn plugin 
-- name: 'gcr.io/cloud-builders/mvn'
-  args: ['install', '-f', 'pom.xml' ]
-  id: 'Building jar file'
-
-  #Building docker image from the generated Jar file
-
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-manager-backend', '.' ]
-  id: 'Building Docker Image'
-  
-  #Pushing image to artifact registry  
-
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-manager-backend' ]
-  id: 'Pushing Docker Image to artifact registry'
-
-- name: 'gcr.io/rapp-studio/cloud-builders-helm'
+  name: 'gcr.io/rimusz-lab1/cloud-builders-helm'
   args: ['package','./charts/rapp-studio-backend']
   id: 'Packaging helm chart'
 
-- name: 'gcr.io/rapp-studio/cloud-builders-helm'
+- name: 'gcr.io/rimusz-lab1/cloud-builders-helm'
   args: ['push','/rapp-studio-backend-*','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
