@@ -17,9 +17,9 @@ steps:
   id: 'Pushing Docker Image to artifact registry'
 
 - name: 'gcr.io/cloud-builders/helm'
-  args: ['package' './charts/rapp-studio-backend']
+  args: ['package','./charts/rapp-studio-backend']
   id: 'Packaging helm chart'
 
 - name: 'gcr.io/cloud-builders/helm'
-  args: ['push' '/rapp-studio-backend-*' 'oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
+  args: ['push','/rapp-studio-backend-*','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
