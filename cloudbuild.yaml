@@ -1,8 +1,8 @@
 steps:
 - name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
-  args: ['package','./charts/rapp-studio-backend']
+  args: ['package','./charts/rapp-manager-backend']
   id: 'Packaging helm chart'
 
 - name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
-  args: ['push','/rapp-studio-backend-*','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
+  args: ['push','/rapp-manager-backend-*','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
