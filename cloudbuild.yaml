@@ -7,9 +7,21 @@ steps:
   args: ['push','/workspace/rapp-manager-backend-0.1.0.tgz','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
 
+- name: 'gcr.io/cloud-builders/kubectl'
+    id: Configure kubectl
+    args:
+      - cluster-info
+    env:
+      - 'PROJECT=rapp-studio'
+      - 'CLOUDSDK_COMPUTE_REGION=europe-north1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=rapp-studio-gke1'
+      - 'KUBECONFIG=/workspace/.kube/config'   
+
 - name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
   args: ['install','rapp-manager-backend','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-studio-backend']
   id: 'Installing the helm charts'
   env:
+      - 'HELM_HOME=/workspace'
+      - 'KUBECONFIG=/workspace/.kube/config'
       - 'CLOUDSDK_COMPUTE_ZONE=europe-north1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=rapp-studio-gke1'
