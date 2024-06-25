@@ -1,26 +1,25 @@
 steps:
-- name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
-  args: ['package','./charts/rapp-manager-backend']
+  #Building the jar file using gcloud mvn plugin 
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['install', '-f', 'pom.xml' ]
+  id: 'Building jar file'
+
+  #Building docker image from the generated Jar file
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-manager-backend', '.' ]
+  id: 'Building Docker Image'
+  
+  #Pushing image to artifact registry  
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-manager-backend' ]
+  id: 'Pushing Docker Image to artifact registry'
+
+- name: 'gcr.io/rapp-studio/cloud-builders-helm'
+  args: ['package','./charts/rapp-studio-backend']
   id: 'Packaging helm chart'
 
-- name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
-  args: ['push','/workspace/rapp-manager-backend-0.1.0.tgz','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
+- name: 'gcr.io/rapp-studio/cloud-builders-helm'
+  args: ['push',/rapp-studio-backend-*,'oci://europe-north1-docker.pkg.dev/rapp-studio/rapp']
   id: 'Pushing helm chart'
-
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'Configure kubectl'
-  args: ['cluster-info']
-  env:
-  - 'PROJECT=rapp-studio'
-  - 'CLOUDSDK_COMPUTE_REGION=europe-north1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=rapp-studio-gke1'
-  - 'KUBECONFIG=/workspace/.kube/config'   
-
-- name: 'europe-north1-docker.pkg.dev/rapp-studio/rapp/helm'
-  args: ['install','rapp-manager-backend','oci://europe-north1-docker.pkg.dev/rapp-studio/rapp/rapp-studio-backend']
-  id: 'Installing the helm charts'
-  env:
-  - 'HELM_HOME=/workspace'
-  - 'KUBECONFIG=/workspace/.kube/config'
-  - 'CLOUDSDK_COMPUTE_ZONE=europe-north1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=rapp-studio-gke1'
